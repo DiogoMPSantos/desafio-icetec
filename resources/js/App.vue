@@ -42,20 +42,31 @@
         },
         methods: {
             logout(){
-                const token = localStorage.getItem('access');
-                this.axios.post('http://localhost:8000/api/candidate/logout',null,{
-                        headers: {
-                                'Authorization': `Bearer ${token}`
-                        }
-                    })
-                    .then(response => {
-                            localStorage.setItem('logout','false');
-                            localStorage.setItem("access","");
-                            this.$router.push({name: 'login'})
-                            location.reload();
-                    })
-                    .catch(error => console.log(error))
-                    .finally(() => this.loading = false)    
+                this.$swal.fire({
+                title: 'Are you sure?',
+                text: "Logout Application",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const token = localStorage.getItem('access');
+                        this.axios.post('http://localhost:8000/api/candidate/logout',null,{
+                                headers: {
+                                        'Authorization': `Bearer ${token}`
+                                }
+                            })
+                            .then(response => {
+                                    localStorage.setItem('logout','false');
+                                    localStorage.setItem("access","");
+                                    this.$router.push({name: 'login'})
+                                    location.reload();
+                            })
+                            .catch(error => console.log(error))
+                            .finally(() => this.loading = false)    
+                    }})
             },
         }
     }

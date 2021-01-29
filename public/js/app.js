@@ -6186,24 +6186,37 @@ __webpack_require__.r(__webpack_exports__);
     logout: function logout() {
       var _this = this;
 
-      var token = localStorage.getItem('access');
-      this.axios.post('http://localhost:8000/api/candidate/logout', null, {
-        headers: {
-          'Authorization': "Bearer ".concat(token)
+      this.$swal.fire({
+        title: 'Are you sure?',
+        text: "Logout Application",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var token = localStorage.getItem('access');
+
+          _this.axios.post('http://localhost:8000/api/candidate/logout', null, {
+            headers: {
+              'Authorization': "Bearer ".concat(token)
+            }
+          }).then(function (response) {
+            localStorage.setItem('logout', 'false');
+            localStorage.setItem("access", "");
+
+            _this.$router.push({
+              name: 'login'
+            });
+
+            location.reload();
+          })["catch"](function (error) {
+            return console.log(error);
+          })["finally"](function () {
+            return _this.loading = false;
+          });
         }
-      }).then(function (response) {
-        localStorage.setItem('logout', 'false');
-        localStorage.setItem("access", "");
-
-        _this.$router.push({
-          name: 'login'
-        });
-
-        location.reload();
-      })["catch"](function (error) {
-        return console.log(error);
-      })["finally"](function () {
-        return _this.loading = false;
       });
     }
   }
@@ -6535,21 +6548,34 @@ __webpack_require__.r(__webpack_exports__);
     updateCandidate: function updateCandidate() {
       var _this2 = this;
 
-      var token = localStorage.getItem('access');
-      this.axios.post("http://localhost:8000/api/candidate/update/".concat(this.$route.params.id), this.candidate, {
-        headers: {
-          'Authorization': "Bearer ".concat(token)
+      this.$swal.fire({
+        title: 'Are you sure?',
+        text: "Update Candidate",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          var token = localStorage.getItem('access');
+
+          _this2.axios.post("http://localhost:8000/api/candidate/update/".concat(_this2.$route.params.id), _this2.candidate, {
+            headers: {
+              'Authorization': "Bearer ".concat(token)
+            }
+          }).then(function (response) {
+            _this2.$router.push({
+              name: 'home'
+            });
+          })["catch"](function (error) {
+            return _this2.$router.push({
+              name: 'login'
+            });
+          })["finally"](function () {
+            return _this2.loading = false;
+          });
         }
-      }).then(function (response) {
-        _this2.$router.push({
-          name: 'home'
-        });
-      })["catch"](function (error) {
-        return _this2.$router.push({
-          name: 'login'
-        });
-      })["finally"](function () {
-        return _this2.loading = false;
       });
     }
   }
@@ -6605,7 +6631,9 @@ __webpack_require__.r(__webpack_exports__);
           location.reload();
         }
       })["catch"](function (error) {
-        return _this.$router.push({
+        _this.error = true;
+
+        _this.$router.push({
           name: 'login'
         });
       })["finally"](function () {

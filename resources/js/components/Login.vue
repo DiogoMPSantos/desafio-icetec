@@ -33,7 +33,10 @@
                         location.reload();
                     }
                 })
-            .catch(error =>  this.$router.push({name: 'login'}))
+            .catch(error => { 
+                this.error = true;
+                this.$router.push({name: 'login'})
+             })
             .finally(() => this.loading = false)    
       },
     }
