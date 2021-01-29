@@ -12,10 +12,13 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <router-link to="/" class="nav-item nav-link">Home</router-link>
+                        <router-link to="/home" class="nav-item nav-link">Home</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/add" class="nav-item nav-link">Add Candidate</router-link>
+                    </li>
+                    <li class="nav-item" v-if="access==='true'">
+                        <button class="btn btn-danger" @click="logout()">Logout</button>
                     </li>
                 </ul>
             </div>
@@ -28,5 +31,28 @@
 </template>
 
 <script>
-    export default {}
+    export default {
+        data() {
+            return {                
+                access: 'true',
+            }
+        },
+        methods: {
+            logout(){
+                const token = localStorage.getItem('access');
+                this.axios.post('http://localhost:8000/api/candidate/logout',null,{
+                        headers: {
+                                'Authorization': `Bearer ${token}`
+                        }
+                    })
+                    .then(response => {
+                            this.access= 'false';
+                            localStorage.setItem("access","");
+                            this.$router.push({name: 'login'})
+                    })
+                    .catch(error => console.log(error))
+                    .finally(() => this.loading = false)    
+            },
+        }
+    }
 </script>

@@ -60,11 +60,19 @@
             }
         },
         created() {
+            const token = localStorage.getItem('access');
             this.axios
-                .get('http://localhost:8000/api/candidates')
+                .get('http://localhost:8000/api/candidate/candidates', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
                 .then(response => {
                     this.candidates = response.data;
-                });
+                })
+                .catch(error =>  this.$router.push({name: 'login'}))
+                .finally(() => this.loading = false)      
+                
         },
         methods: {
             deleteCandidate(id) {
@@ -79,7 +87,11 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         this.axios
-                            .delete(`http://localhost:8000/api/candidate/delete/${id}`)
+                            .delete(`http://localhost:8000/api/candidate/delete/${id}`,{
+                                headers: {
+                                        'Authorization': `Bearer ${token}`
+                                    }
+                            })
                             .then(response => {
                                 let i = this.candidates.map(item => item.id).indexOf(id); // find index of your object
                                 this.candidates.splice(i, 1)

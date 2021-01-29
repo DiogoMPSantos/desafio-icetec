@@ -49,17 +49,36 @@
                 candidate: {}
             }
         },
+        created() {
+            const token = localStorage.getItem('access');
+            this.axios
+                .get('http://localhost:8000/api/candidate/candidates',{
+                    headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                })
+                .then(response => {
+                    this.candidates = response.data;
+                })
+                .catch(error => { this.$router.push({name: 'login'})})
+                .finally(() => this.loading = false)    
+                
+        },
         methods: {
             addCandidate() {
-
+                const token = localStorage.getItem('access');
                 this.axios
-                    .post('http://localhost:8000/api/candidate/create', this.candidate)
+                    .post('http://localhost:8000/api/candidate/create', this.candidate,{
+                        headers: {
+                                'Authorization': `Bearer ${token}`
+                        }
+                    })
                     .then(response => (
                         this.$router.push({name: 'home'})
                     ))
-                    .catch(error => console.log(error))
-                    .finally(() => this.loading = false)
-            }
+                    .catch(error =>  this.$router.push({name: 'login'}))
+                    .finally(() => this.loading = false)    
+                    }
         }
     }
 </script>

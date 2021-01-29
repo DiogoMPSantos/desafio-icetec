@@ -50,19 +50,33 @@
             }
         },
         created() {
+            const token = localStorage.getItem('access');
             this.axios
-                .get(`http://localhost:8000/api/candidate/edit/${this.$route.params.id}`)
+                .get(`http://localhost:8000/api/candidate/edit/${this.$route.params.id}`,{
+                    headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                })
                 .then((response) => {
                     this.candidate = response.data;
-                });
+                })
+                .catch(error => { this.$router.push({name: 'login'})})
+                .finally(() => this.loading = false);
         },
         methods: {
             updateCandidate() {
+                const token = localStorage.getItem('access');
                 this.axios
-                    .post(`http://localhost:8000/api/candidate/update/${this.$route.params.id}`, this.candidate)
+                    .post(`http://localhost:8000/api/candidate/update/${this.$route.params.id}`, this.candidate,{
+                        headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                    })
                     .then((response) => {
                         this.$router.push({name: 'home'});
-                    });
+                    })
+                    .catch(error =>  this.$router.push({name: 'login'}))
+                    .finally(() => this.loading = false);
             }
         }
     }
