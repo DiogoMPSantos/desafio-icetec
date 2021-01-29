@@ -11,7 +11,7 @@
     JWT Key: php artisan jwt:secret
     Seeds: php artisan db:seed
     Vuejs Front: npm run watch
-    Api Laravel Start:
+    Api Laravel Start: php artisan serve
 
 ## Informações de Usuário
     User: admin@gmail.com   
