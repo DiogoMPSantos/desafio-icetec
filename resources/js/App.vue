@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="text-center" style="margin: 20px 0px 20px 0px;">
-            <a href="https://shouts.dev/" target="_blank"><img src="https://i.imgur.com/hHZjfUq.png"></a><br>
+            <a href="https://shouts.dev/" target="_blank"><img src="https://www.wpoint.co.uk/images/scc-logo.jpg"></a><br>
             <span class="text-secondary">Sistema de Controle de Candidatos</span>
         </div>
 

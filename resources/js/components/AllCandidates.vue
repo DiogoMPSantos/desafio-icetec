@@ -20,10 +20,10 @@
                 <td>{{ candidate.url }}</td>
                 <td>{{ candidate.url }}</td>
                 <td>
-                    <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: candidate.id }}" class="btn btn-primary">Edit
+                    <div class="btn-group d-flex" role="group">
+                        <router-link :to="{name: 'edit', params: { id: candidate.id }}" class="btn btn-primary mr-1"><i class="fas fa-edit"></i>
                         </router-link>
-                        <button class="btn btn-danger" @click="deleteBook(candidate.id)">Delete</button>
+                        <button class="btn btn-danger" @click="deleteBook(candidate.id)"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             </tr>
