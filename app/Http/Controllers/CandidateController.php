@@ -79,8 +79,11 @@ class CandidateController extends Controller
      * @param  \App\Models\Candidate  $candidate
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Candidate $candidate)
+    public function destroy($id)
     {
-        //
+        $candidate = Candidate::find($id);
+        $candidate->delete();
+
+        return response()->json('The candidate successfully deleted');
     }
 }

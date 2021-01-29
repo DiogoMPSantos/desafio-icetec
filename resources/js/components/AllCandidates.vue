@@ -23,7 +23,7 @@
                     <div class="btn-group d-flex" role="group">
                         <router-link :to="{name: 'edit', params: { id: candidate.id }}" class="btn btn-primary mr-1"><i class="fas fa-edit"></i>
                         </router-link>
-                        <button class="btn btn-danger" @click="deleteBook(candidate.id)"><i class="fas fa-trash"></i></button>
+                        <button class="btn btn-danger" @click="deleteCandidate(candidate.id)"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             </tr>
@@ -48,12 +48,25 @@
         },
         methods: {
             deleteCandidate(id) {
-                this.axios
-                    .delete(`http://localhost:8000/api/candidate/delete/${id}`)
-                    .then(response => {
-                        let i = this.candidates.map(item => item.id).indexOf(id); // find index of your object
-                        this.candidates.splice(i, 1)
-                    });
+               this.$swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.axios
+                            .delete(`http://localhost:8000/api/candidate/delete/${id}`)
+                            .then(response => {
+                                let i = this.candidates.map(item => item.id).indexOf(id); // find index of your object
+                                this.candidates.splice(i, 1)
+                            });
+                    }
+                })
+                    
             }
         }
     }

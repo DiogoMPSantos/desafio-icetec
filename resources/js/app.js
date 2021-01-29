@@ -13,6 +13,11 @@ import "@fortawesome/fontawesome-free/js/fontawesome.js";
 import "@fortawesome/fontawesome-free/js/solid";
 import "@fortawesome/fontawesome-free/js/brands";
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+Vue.use(VueSweetalert2);
+
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 
