@@ -34,8 +34,11 @@
     export default {
         data() {
             return {                
-                access: 'true',
+                access: 'false'
             }
+        },
+        created() {
+            this.access = localStorage.getItem("logout")
         },
         methods: {
             logout(){
@@ -46,9 +49,10 @@
                         }
                     })
                     .then(response => {
-                            this.access= 'false';
+                            localStorage.setItem('logout','false');
                             localStorage.setItem("access","");
                             this.$router.push({name: 'login'})
+                            location.reload();
                     })
                     .catch(error => console.log(error))
                     .finally(() => this.loading = false)    

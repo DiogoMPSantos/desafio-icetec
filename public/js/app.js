@@ -6176,8 +6176,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      access: 'true'
+      access: 'false'
     };
+  },
+  created: function created() {
+    this.access = localStorage.getItem("logout");
   },
   methods: {
     logout: function logout() {
@@ -6189,12 +6192,14 @@ __webpack_require__.r(__webpack_exports__);
           'Authorization': "Bearer ".concat(token)
         }
       }).then(function (response) {
-        _this.access = 'false';
+        localStorage.setItem('logout', 'false');
         localStorage.setItem("access", "");
 
         _this.$router.push({
           name: 'login'
         });
+
+        location.reload();
       })["catch"](function (error) {
         return console.log(error);
       })["finally"](function () {
@@ -6591,6 +6596,7 @@ __webpack_require__.r(__webpack_exports__);
       this.axios.post('http://localhost:8000/api/login', this.credentials).then(function (response) {
         if (response.data.token) {
           localStorage.setItem('access', response.data.token);
+          localStorage.setItem('logout', 'true');
 
           _this.$router.push({
             name: 'home'

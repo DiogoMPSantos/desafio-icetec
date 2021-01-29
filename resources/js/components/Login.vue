@@ -28,6 +28,7 @@
             .then(response => {
                     if (response.data.token) {
                         localStorage.setItem('access', response.data.token)
+                        localStorage.setItem('logout', 'true')
                         this.$router.push({name: 'home'})
                         location.reload();
                     }
