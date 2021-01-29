@@ -1,21 +1,21 @@
 import AllBooks from './components/AllCandidates.vue';
-// import AddBook from './components/AddBook.vue';
-// import EditBook from './components/EditBook.vue';
-
+import AddCandidate from './components/AddCandidate.vue';
+import EditCandidate from './components/EditCandidate.vue';
+ 
 export const routes = [
     {
         name: 'home',
         path: '/',
         component: AllBooks
     },
-    // {
-    //     name: 'add',
-    //     path: '/add',
-    //     component: AddBook
-    // },
-    // {
-    //     name: 'edit',
-    //     path: '/edit/:id',
-    //     component: EditBook
-    // }
+    {
+        name: 'add',
+        path: '/add',
+        component: AddCandidate
+    },
+    {
+        name: 'edit',
+        path: '/edit/:id',
+        component: EditCandidate
+    }
 ];

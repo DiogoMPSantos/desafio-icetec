@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('candidates', 'App\Http\Controllers\CandidateController@index');
 Route::group(['prefix' => 'candidate'], function () {
-    Route::post('create', 'App\Http\Controllers\CandidateController@create');
+    Route::post('create', 'App\Http\Controllers\CandidateController@store');
     Route::get('edit/{id}', 'App\Http\Controllers\CandidateController@edit');
     Route::post('update/{id}', 'App\Http\Controllers\CandidateController@update');
     Route::delete('delete/{id}', 'App\Http\Controllers\CandidateController@destroy');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Candidate;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class CandidateController extends Controller
@@ -14,7 +15,7 @@ class CandidateController extends Controller
      */
     public function index()
     {
-        $candidates = Candidate::all()->toArray();
+        $candidates = Candidate::with('skills')->get()->toArray();
         return $candidates;
     }
 
@@ -36,7 +37,23 @@ class CandidateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $candidate = new Candidate([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'old' => $request->input('old'),
+            'url' => $request->input('url'),
+        ]);
+        $candidate->save();
+        $canditate_id = $candidate->id;
+        foreach ($request->input('skills') as $key => $skill) {
+            $skills = new Skill([
+                'name' => $skill,
+                'candidate_id' => $canditate_id
+            ]);
+            $skills->save();
+        }
+
+        return response()->json('The candidate successfully added');
     }
 
     /**
@@ -56,9 +73,10 @@ class CandidateController extends Controller
      * @param  \App\Models\Candidate  $candidate
      * @return \Illuminate\Http\Response
      */
-    public function edit(Candidate $candidate)
+    public function edit($id)
     {
-        //
+        $candidate = Candidate::find($id);
+        return response()->json($candidate);
     }
 
     /**
@@ -68,9 +86,21 @@ class CandidateController extends Controller
      * @param  \App\Models\Candidate  $candidate
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Candidate $candidate)
+    public function update(Request $request, $id)
     {
-        //
+        $candidate = Candidate::find($id);
+        $candidate->update($request->except('skills'));
+        $canditate_id = $candidate->id;
+        Skill::where('candidate_id',$canditate_id)->delete();
+        foreach ($request->input('skills') as $key => $skill) {
+            $skills = new Skill([
+                'name' => $skill,
+                'candidate_id' => $canditate_id
+            ]);
+            $skills->save();
+        }
+
+        return response()->json('The candidate successfully updated');
     }
 
     /**

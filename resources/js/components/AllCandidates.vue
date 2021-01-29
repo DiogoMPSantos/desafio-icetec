@@ -18,7 +18,12 @@
                 <td>{{ candidate.email }}</td>
                 <td>{{ candidate.old }}</td>
                 <td>{{ candidate.url }}</td>
-                <td>{{ candidate.url }}</td>
+                
+                <td>
+                    <label v-for="skill in candidate.skills" :key="candidate.skills.id">
+                        {{ skill.name }}
+                    </label>
+                </td>
                 <td>
                     <div class="btn-group d-flex" role="group">
                         <router-link :to="{name: 'edit', params: { id: candidate.id }}" class="btn btn-primary mr-1"><i class="fas fa-edit"></i>
