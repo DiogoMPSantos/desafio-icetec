@@ -6300,10 +6300,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      candidates: []
+      candidates: [],
+      searchSkill: ''
     };
   },
   created: function created() {
@@ -6337,6 +6352,25 @@ __webpack_require__.r(__webpack_exports__);
           });
         }
       });
+    }
+  },
+  computed: {
+    searchTable: function searchTable() {
+      var _this3 = this;
+
+      if (this.searchSkill) {
+        if (this.searchSkill == "All") {
+          return this.candidates;
+        } else {
+          return this.candidates.filter(function (item) {
+            return item.skills.find(function (skill) {
+              return skill.name === _this3.searchSkill;
+            });
+          });
+        }
+      } else {
+        return this.candidates;
+      }
     }
   }
 });
@@ -46742,7 +46776,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("option", { attrs: { value: "PHP" } }, [_vm._v("PHP")]),
                     _vm._v(" "),
-                    _c("option", { attrs: { value: "Laravel)," } }, [
+                    _c("option", { attrs: { value: "Laravel" } }, [
                       _vm._v("Laravel")
                     ])
                   ]
@@ -46787,12 +46821,72 @@ var render = function() {
     _c("h3", { staticClass: "text-center" }, [_vm._v("All Candidates")]),
     _c("br"),
     _vm._v(" "),
+    _c("div", { staticClass: "pb-2" }, [
+      _c(
+        "select",
+        {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.searchSkill,
+              expression: "searchSkill"
+            }
+          ],
+          staticClass: "form-control col-4",
+          attrs: { required: "" },
+          on: {
+            change: function($event) {
+              var $$selectedVal = Array.prototype.filter
+                .call($event.target.options, function(o) {
+                  return o.selected
+                })
+                .map(function(o) {
+                  var val = "_value" in o ? o._value : o.value
+                  return val
+                })
+              _vm.searchSkill = $event.target.multiple
+                ? $$selectedVal
+                : $$selectedVal[0]
+            }
+          }
+        },
+        [
+          _c("option", { attrs: { value: "", disabled: "", selected: "" } }, [
+            _vm._v("Filter By Skill")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "All" } }, [_vm._v("All")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "C#" } }, [_vm._v("C#")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Javascript" } }, [
+            _vm._v("Javascript")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Nodejs" } }, [_vm._v("Nodejs")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Angular" } }, [_vm._v("Angular")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Ionic" } }, [_vm._v("Ionic")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Mensageria" } }, [
+            _vm._v("Mensageria")
+          ]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "PHP" } }, [_vm._v("PHP")]),
+          _vm._v(" "),
+          _c("option", { attrs: { value: "Laravel" } }, [_vm._v("Laravel")])
+        ]
+      )
+    ]),
+    _vm._v(" "),
     _c("table", { staticClass: "table table-bordered" }, [
       _vm._m(0),
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.candidates, function(candidate) {
+        _vm._l(_vm.searchTable, function(candidate) {
           return _c("tr", { key: candidate.id }, [
             _c("td", [_vm._v(_vm._s(candidate.name))]),
             _vm._v(" "),
@@ -46805,13 +46899,15 @@ var render = function() {
             _c(
               "td",
               _vm._l(candidate.skills, function(skill) {
-                return _c("label", { key: candidate.skills.id }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(skill.name) +
-                      "\n                "
-                  )
-                ])
+                return _c(
+                  "ul",
+                  { key: candidate.skills.id, staticClass: "list-group" },
+                  [
+                    _c("li", { staticClass: "list-group-item" }, [
+                      _vm._v(" " + _vm._s(skill.name) + " ")
+                    ])
+                  ]
+                )
               }),
               0
             ),

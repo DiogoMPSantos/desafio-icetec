@@ -31,7 +31,7 @@
                                 <option value="Ionic">Ionic</option>
                                 <option value="Mensageria">Mensageria</option>
                                 <option value="PHP">PHP</option>
-                                <option value="Laravel),">Laravel</option>
+                                <option value="Laravel">Laravel</option>
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Add Candidate</button>

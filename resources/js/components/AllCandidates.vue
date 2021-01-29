@@ -1,6 +1,21 @@
 <template>
     <div>
         <h3 class="text-center">All Candidates</h3><br/>
+        <div class="pb-2"> 
+            <select required class="form-control col-4" v-model="searchSkill">
+                <option value="" disabled selected>Filter By Skill</option>
+                <option value="All">All</option>
+                <option value="C#">C#</option>
+                <option value="Javascript">Javascript</option>
+                <option value="Nodejs">Nodejs</option>
+                <option value="Angular">Angular</option>
+                <option value="Ionic">Ionic</option>
+                <option value="Mensageria">Mensageria</option>
+                <option value="PHP">PHP</option>
+                <option value="Laravel">Laravel</option>
+            </select>
+        </div>
+
         <table class="table table-bordered">
             <thead>
             <tr>
@@ -13,16 +28,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="candidate in candidates" :key="candidate.id">
+            <tr v-for="candidate in searchTable" :key="candidate.id">
                 <td>{{ candidate.name }}</td>
                 <td>{{ candidate.email }}</td>
                 <td>{{ candidate.old }}</td>
                 <td>{{ candidate.url }}</td>
-                
                 <td>
-                    <label v-for="skill in candidate.skills" :key="candidate.skills.id">
-                        {{ skill.name }}
-                    </label>
+                    <ul v-for="skill in candidate.skills" :key="candidate.skills.id" class="list-group">
+                       <li class="list-group-item"> {{ skill.name }} </li>
+                    </ul>
                 </td>
                 <td>
                     <div class="btn-group d-flex" role="group">
@@ -40,8 +54,9 @@
 <script>
     export default {
         data() {
-            return {
-                candidates: []
+            return {                
+                candidates: [],
+                searchSkill: ''
             }
         },
         created() {
@@ -72,6 +87,21 @@
                     }
                 })
                     
+            }
+        },
+        computed: {
+            searchTable(){
+                if(this.searchSkill){
+                    if(this.searchSkill=="All"){
+                        return this.candidates;
+                    }else{
+                        return this.candidates.filter((item)=>{
+                            return item.skills.find(skill => skill.name === this.searchSkill);
+                        })
+                    }
+                }else{
+                    return this.candidates;
+                }
             }
         }
     }
