@@ -6428,6 +6428,8 @@ __webpack_require__.r(__webpack_exports__);
         confirmButtonText: 'Yes, delete it!'
       }).then(function (result) {
         if (result.isConfirmed) {
+          var token = localStorage.getItem('access');
+
           _this2.axios["delete"]("http://localhost:8000/api/candidate/delete/".concat(id), {
             headers: {
               'Authorization': "Bearer ".concat(token)

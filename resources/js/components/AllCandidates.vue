@@ -86,6 +86,7 @@
                 confirmButtonText: 'Yes, delete it!'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        const token = localStorage.getItem('access');
                         this.axios
                             .delete(`http://localhost:8000/api/candidate/delete/${id}`,{
                                 headers: {
