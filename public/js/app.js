@@ -63037,13 +63037,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
 router.beforeEach(function (to, from, next) {
   var publicPages = ['/'];
   var authRequired = !publicPages.includes(to.path);
-  var loggedIn = localStorage.getItem('user');
+  var loggedIn = false;
 
-  if (authRequired && !loggedIn) {
-    return next('/');
+  if (localStorage.getItem('logout') === null) {
+    loggedIn = false;
+  } else {
+    loggedIn = true;
   }
 
-  next();
+  if (authRequired && !loggedIn) return next('/');else next();
 });
 var app = new Vue({
   el: '#app',
